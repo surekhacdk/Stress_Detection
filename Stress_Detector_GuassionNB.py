@@ -9,14 +9,14 @@ df = pd.read_excel('stress_data.xlsx', header=None)
 
 df.columns=['Target', 'ECG(mV)', 'EMG(mV)','Foot GSR(mV)','Hand GSR(mV)', 'HR(bpm)','RESP(mV)']
 X_train, X_test, y_train, y_test = train_test_split(df[['ECG(mV)', 'EMG(mV)','Foot GSR(mV)','Hand GSR(mV)', 'HR(bpm)','RESP(mV)']], df['Target'],
-    test_size=0.30, random_state=12345)
+    test_size=0.20, random_state=42)
 
 # Min-Max Scaling
 
 minmax_scale = preprocessing.MinMaxScaler().fit(df[['ECG(mV)', 'EMG(mV)','Foot GSR(mV)','Hand GSR(mV)', 'HR(bpm)','RESP(mV)']])
 df_minmax = minmax_scale.transform(df[['ECG(mV)', 'EMG(mV)','Foot GSR(mV)','Hand GSR(mV)', 'HR(bpm)','RESP(mV)']])
 X_train_norm, X_test_norm, y_train_norm, y_test_norm = train_test_split(df_minmax, df['Target'],
-    test_size=0.30, random_state=12345)
+    test_size=0.20, random_state=42)
 
 def plot():
     plt.figure(figsize=(8,6))
@@ -44,7 +44,7 @@ fit = gnb.fit(X_train, y_train)
 
 # on normalized data
 gnb_norm = GaussianNB()
-fit_norm = gnb_norm.fit(X_train_norm, y_train)
+fit_norm = gnb_norm.fit(X_train_norm, y_train_norm)
 
 pred_train = gnb.predict(X_train)
 pred_test = gnb.predict(X_test)
